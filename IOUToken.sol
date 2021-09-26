@@ -1,7 +1,3 @@
-/**
- *Submitted for verification at BscScan.com on 2021-09-21
-*/
-
 // SPDX-License-Identifier: UNLICENSED
 
 // File: @uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol
@@ -1558,7 +1554,7 @@ contract IOUToken is BEP20 {
     }
 
     /// @dev Swap and Liquify
-    function swapAndLiquify() public lockTheSwap{
+    function swapAndLiquify() internal lockTheSwap{
         uint256 contractTokenBalance = balanceOf(address(this));
 
         if (contractTokenBalance >= maxTransferAmount()) {
@@ -1597,7 +1593,7 @@ contract IOUToken is BEP20 {
         }
     }
     
-    function swapTokensForBNB(uint256 tokenAmount) public {
+    function swapTokensForBNB(uint256 tokenAmount) internal {
         address[] memory path = new address[](2);
         path[0] = address(this);
         path[1] = uniswapRouter.WETH();
@@ -1615,7 +1611,7 @@ contract IOUToken is BEP20 {
         emit SwapTokensForBNB(tokenAmount, path);
     }
 
-    function addToLiquidity(uint256 _amount, uint256 bnbAmount) public {
+    function addToLiquidity(uint256 _amount, uint256 bnbAmount) internal {
         _approve(address(this), address(uniswapRouter), _amount);
         
         uniswapRouter.addLiquidityETH{value: bnbAmount}(
@@ -1628,7 +1624,7 @@ contract IOUToken is BEP20 {
         );
     }
 
-    function swapBNBForTokensBurn(uint256 amount) public {
+    function swapBNBForTokensBurn(uint256 amount) internal {
         address[] memory path = new address[](2);
         path[0] = uniswapRouter.WETH();
         path[1] = address(this);
